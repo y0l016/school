@@ -24,10 +24,11 @@ message would refer to the message's data structure hereupon.
 
 In some cases the server would want to send some message to the users(like, 'Hey! you are banned') . In such cases the   ```nick``` is set to  ```server``` .
 
+
 This message would be sent to clients online except the sender . The data is not modified by the server but in some cases the server can decide to ignore sending data which'll be discussed in forecoming sections.
 
 
-``` ~ ``` 
+
 # Commands
 
 The Command feature provides a great potential of control over the chat being carried out in the chatserver. It is meant to enrich the chat experience.
