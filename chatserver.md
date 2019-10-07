@@ -17,8 +17,10 @@ The message data would look like this:
 ```
 
 {
+
  "nick": "yolo",
  "msg": "hey spoon"
+ 
 }
 
 ```
