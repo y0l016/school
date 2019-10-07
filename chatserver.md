@@ -26,10 +26,7 @@ In some cases the server would want to send some message to the users(like, 'Hey
 
 This message would be sent to clients online except the sender . The data is not modified by the server but in some cases the server can decide to ignore sending data which'll be discussed in forecoming sections.
 
- ‏‏‎ 
- ‏‏‎ 
-  ‏‏‎ 
-  ``` ```
+
   
 # Commands
 
