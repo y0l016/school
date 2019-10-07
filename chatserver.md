@@ -61,7 +61,7 @@ When a user tried the  ```ping``` command, the client would print  ```pong!``` .
 
 # Server
 
-In the sever file we incclude all the necessary modules namely the  ```select``` , ```json``` and  the ```socket``` . The ```select``` function alone is being imported from the ```select``` module and is used for getting the list of active state sockets that are ready to be read.
+In the sever file we incclude all the necessary modules namely the  ```select``` , ```json``` and  the ```socket```. The ```select``` function alone is being imported from the ```select``` module and is used for getting the list of active state sockets that are ready to be read.
 
 ```addr``` will refer to a tuple (host,port) where host is the ip of the client and port is the port to be connected to hereupon.
 
