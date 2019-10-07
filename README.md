@@ -87,3 +87,46 @@ OP          = []
 # Helper functions
 Some code needs to be repeated many times inside the program. This situation might arise in two cases . For instance, everytime a message has to be recieved, the message recieving part of the code has to be repeated. This is one case. The other case is to handle errors. For example, when an online client goes offline, the server won't be ale to deliver the message to that client. In this case, the message sending function rasies an exception. And an error handling function is required multiple times to handle this error. To satisfy this code repeatation requirement without actually repeating the code, we use helper functions.
 
+```send-only``` is a helper function used to send the message. It's arguements are ```data```` and ```send_to``` . ```data``` is a byte encoded messagge and ```send_to``` is the reciever's socket object.
+
+When the client is offline and one tries to interact with its socket, it raises an error. This function handles the error by removing the socket from the following data structures so we don’t repeatedly try to send or receive data from a broken socket.
+
+*NICKS
+*SOCKETS
+
+To remove the broken socket from  ```NICKS```, we use the  ```getpeername``` method of a socket that returns an  ```addr```.
+
+```
+def send_only(data, send_to):
+    try:
+        send_to.send(data)
+    except:
+        data_dict = json.loads(data)
+        del NICKS[data_dict.get("nick")]
+        SOCKETS.remove(sck)
+```
+
+```send_only``` is convenient to have but the program becomes verbose if we have a ```for``` loop in the middle of the main loop. Separating an integral part such as this to a function also makes debugging easier. So we write a function  ```send_all``` that sends a message to everyone except the sender.
+
+```send_all``` is constructed on top of  ```send_only```. ```send_only``` does the big job. ```send_all``` sends the message to every socket except the server’s and the sender’s.
+
+```
+def send_all(data, sent_from):
+    pass_scks = [SERV_SOCKET, sent_from]
+    for sck in SOCKETS:
+        if sck not in pass_scks:
+            print(f"sending to {sck}")
+            send_only(data, sck)
+```
+
+# Commands
+
+Commands are an important part that our protocol offers. It is powerful and easily expandable. Implementing new commands should be a matter of second. As mentioned before, there are some commands that are exclusive to a certain group of users. When one tries to use a command that they don’t have access to, we need to let them know that they can’t use this command. Morever, we don’t need to send their mistake to everyone. Creating a message naturally becomes a vital part.
+
+Creation of a message needs to be done quite often so we throw it in a separate function called  ```gen_msg``` that takes an arguement called ```msg```
+
+```
+def gen_msg(msg):
+    msg = { "nick": "server", "msg": msg }
+    return bytes(json.dumps(msg), "utf-8")
+```
